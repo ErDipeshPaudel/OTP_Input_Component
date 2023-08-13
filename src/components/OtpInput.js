@@ -1,9 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./OtpInput.css";
 
 const OtpInput = () => {
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
+  const nameInput = useRef(null);
+
+  useEffect(function () {
+    nameInput.current.focus();
+    console.log("Auto focus added on full name!");
+  }, []);
 
   const handleInputChange = (index, value) => {
     console.log(index, value, otpValues);
@@ -32,21 +38,26 @@ const OtpInput = () => {
   };
 
   return (
-    <div className="input-container">
-      {otpValues.map((value, index) => (
-        <input
-          type="text"
-          value={value}
-          key={index}
-          ref={(ref) => (inputRefs.current[index] = ref)}
-          maxLength={1}
-          className="otp-input"
-          onChange={(e) => handleInputChange(index, e.target.value)}
-          onKeyDown={(e) => handleKeyDown(e, index)}
-          onFocus={() => handleFocus(index)}
-        />
-      ))}
-    </div>
+    <>
+      <label>Full Name:</label>
+      <input type="text" ref={nameInput} />
+      <div className="input-container">
+        {otpValues.map((value, index) => (
+          <input
+            type="text"
+            value={value}
+            key={index}
+            ref={(ref) => (inputRefs.current[index] = ref)}
+            maxLength={1}
+            className="otp-input"
+            onChange={(e) => handleInputChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
+            onFocus={() => handleFocus(index)}
+          />
+        ))}
+      </div>
+      <button>Submit</button>
+    </>
   );
 };
 
